@@ -10,6 +10,7 @@
 
         protected int[,] _nextBoardGeneration { get; set; } = null!;
         public int[,] CurrentBoardGeneration { get; set; } = null!;
+        public int[,] PreviousBoardGeneration { get; set; } = null!;
 
         public BaseGameOfLife()
         {
@@ -27,10 +28,26 @@
             CreateInitialPopulation();
         }
 
+        public BaseGameOfLife(int numberOfColumns, int numberOfRows, int[,] cells)
+        {
+            Cols = numberOfColumns;
+            Rows = numberOfRows;
+
+            CurrentBoardGeneration = cells;
+            PreviousBoardGeneration = cells;
+            _nextBoardGeneration = cells;
+        }
+
         /// <summary>
         /// Create the first population by inserting random ALIVE(1) and DEAD(0) cells into the game board
         /// </summary>
         protected abstract void CreateInitialPopulation();
+
+        /// <summary>
+        /// Check if the current game is stable
+        /// </summary>
+        /// <returns>Returns <code>true</code> if the current game of life is stable</returns>
+        public abstract bool IsStable();
 
         /// <summary>
         /// Create the next generation by applying the four rules of the Game of Life

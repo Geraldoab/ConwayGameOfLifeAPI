@@ -20,11 +20,11 @@ namespace ConwayGameOfLife.Controllers
         }
 
         /// <summary>
-        /// Creates a new board configuration
+        /// Uploads a new board configuration
         /// </summary>
         /// <param name="request">The new board configuration</param>
-        /// <returns>A board response</returns>
-        [HttpPost("Start")]
+        /// <returns>The new id of the uploaded board</returns>
+        [HttpPost("/boards/upload")]
         [ProducesDefaultResponseType(typeof(BoardStatePostResponse))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -34,7 +34,8 @@ namespace ConwayGameOfLife.Controllers
 
             if (result.IsValid)
             {
-                var response = _gameService.Start(_mapper.Map<Board>(request));
+                var board = _mapper.Map<BoardState>(request);
+                var response = _gameService.Upload(board.Grid);
                 return Ok(response);
             }
             else

@@ -5,6 +5,11 @@ namespace Game.Domain.Interfaces.Services
 {
     public interface IGameService
     {
-        CustomResult Start(Board board);
+        CustomResult Upload(Grid grid);
+        CustomResult GetNextState();
+        CustomResult Simulate(int iterations);
+        CustomResult GetFinalState(int iterations);
+        CustomResult GetById(int id);
+        CustomResult RemoveById(int id);
     }
 }
