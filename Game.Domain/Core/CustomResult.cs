@@ -23,7 +23,6 @@ namespace Game.Infra.Data.Core
         public dynamic? Data { get; set; }
         private static readonly CustomResult OkResult = new CustomResult(true, Enumerable.Empty<string>());
 
-
         public CustomResult(HttpStatusCode? httpStatusCode = null)
         {
             CurrentHttpStatusCode = httpStatusCode;
@@ -32,7 +31,7 @@ namespace Game.Infra.Data.Core
         public CustomResult(dynamic data, HttpStatusCode? httpStatusCode = null)
         {
             Success = true;
-            this.Data = data;
+            Data = data;
             CurrentHttpStatusCode = httpStatusCode;
         }
 
