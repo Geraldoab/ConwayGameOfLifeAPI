@@ -5,11 +5,13 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.API", "Game.API\Game.API.csproj", "{17D83C1E-F89E-4F82-8CE6-8F4091545EAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Games.Infra.Data", "Game.Infra.Data\Games.Infra.Data.csproj", "{7DE13D1E-BE0E-4D4A-B188-6CD1BB83A747}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Infra.Data", "Game.Infra.Data\Game.Infra.Data.csproj", "{7DE13D1E-BE0E-4D4A-B188-6CD1BB83A747}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Domain", "Game.Domain\Game.Domain.csproj", "{9E9C8EAB-06AA-4740-B1C0-91C06D873987}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Application", "Game.Application\Game.Application.csproj", "{C6181C15-158E-4831-9600-DC523837865C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Interface", "Game.Interface\Game.Interface.csproj", "{7677BE9E-ADE6-40E6-BA92-4AEA02C907AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{C6181C15-158E-4831-9600-DC523837865C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6181C15-158E-4831-9600-DC523837865C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6181C15-158E-4831-9600-DC523837865C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7677BE9E-ADE6-40E6-BA92-4AEA02C907AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7677BE9E-ADE6-40E6-BA92-4AEA02C907AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7677BE9E-ADE6-40E6-BA92-4AEA02C907AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7677BE9E-ADE6-40E6-BA92-4AEA02C907AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

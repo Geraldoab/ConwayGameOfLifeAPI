@@ -2,11 +2,11 @@
 {
     public class GameOfLife
     {
-        private const int ALIVE = 1;
-        private const int DEAD = 0;
+        public const int ALIVE = 1;
+        public const int DEAD = 0;
 
-        private int Cols;
-        private int Rows;
+        public int Cols { get; private set; }
+        public int Rows { get; private set; }
 
         private int[,] _nextBoardGeneration = null!;
         public int[,] CurrentBoardGeneration { get; private set; } = null!;
@@ -48,6 +48,22 @@
                         _nextBoardGeneration[column, row] = ALIVE;
                     else
                         _nextBoardGeneration[column, row] = CurrentBoardGeneration[column, row];
+                }
+            }
+
+            MoveNextGenerations();
+        }
+
+        /// <summary>
+        /// Transfer next generation to current generation 
+        /// </summary>
+        private void MoveNextGenerations()
+        {
+            for (int column = 0; column < Cols; column++)
+            {
+                for (int row = 0; row < Rows; row++)
+                {
+                    CurrentBoardGeneration[column, row] = _nextBoardGeneration[column, row];
                 }
             }
         }
