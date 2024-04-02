@@ -9,6 +9,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<IGameService, GameService>();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             return services;
         }
     }
