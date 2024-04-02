@@ -1,22 +1,27 @@
-﻿using Game.Domain.Interfaces.Services;
+﻿using AutoMapper;
+using Game.Application.Contracts;
+using Game.Domain.Core;
+using Game.Domain.Interfaces.Services;
 using Game.Domain.Model;
+using Game.Infra.Data.Core;
 
 namespace Game.Application.Services
 {
     internal class GameService : IGameService
     {
-        public GameService()
+        private readonly IMapper _mapper;
+        public GameService(IMapper mapper)
         {
-            
+            _mapper = mapper;
         }
 
-        public void Start()
+        public CustomResult Start(Board board)
         {
-            GameOfLife newGame = new GameOfLife();
+            BaseGameOfLife _newGame = new GameOfLife();
 
-            var currentBoard = newGame.CurrentBoardGeneration;
+            var currentBoard = _newGame.CurrentBoardGeneration;
 
-            Console.WriteLine("Ok");
+            return CustomResult.Ok(new BoardStatePostResponse());
         }
     }
 }
