@@ -1,4 +1,7 @@
-﻿using Game.Domain.Interfaces.Repositories;
+﻿using AutoMapper;
+using Game.Application.Contracts;
+using Game.Application.Contracts.Core;
+using Game.Domain.Interfaces.Repositories;
 using Game.Domain.Interfaces.Services;
 using Game.Domain.Model;
 using Game.Domain.Resources;
@@ -10,10 +13,12 @@ namespace Game.Application.Services
     internal class GameService : IGameService
     {
         private readonly IGameRepository _gameRepository;
+        private readonly IMapper _mapper;
 
-        public GameService(IGameRepository gameRepository)
+        public GameService(IGameRepository gameRepository, IMapper mapper)
         {
             _gameRepository = gameRepository;
+            _mapper = mapper;
         }
 
         public CustomResult GetById(int id)
@@ -25,7 +30,7 @@ namespace Game.Application.Services
             if (result == null)
                 return CustomResult.Fail($"{Messages.BOARD_STATE_NOT_FOUND_WITH_ID} {id}", HttpStatusCode.NotFound);
 
-            return CustomResult.Ok(result);
+            return CustomResult.Ok(_mapper.Map<BoardResponse>(result));
         }
 
         public CustomResult GetFinalState(int iterations)
@@ -37,7 +42,7 @@ namespace Game.Application.Services
             if (result == null)
                 return CustomResult.Fail(Messages.INVALID_FINAL_STATE);
 
-            return CustomResult.Ok(result);
+            return CustomResult.Ok(_mapper.Map<BoardResponse>(result));
         }
 
         public CustomResult GetNextState()
@@ -46,7 +51,7 @@ namespace Game.Application.Services
             if (result == null)
                 return CustomResult.Fail(Messages.INVALID_NEXT_STATE);
 
-            return CustomResult.Ok(result);
+            return CustomResult.Ok(_mapper.Map<BoardResponse>(result));
         }
 
         public CustomResult RemoveById(int id)
@@ -58,7 +63,7 @@ namespace Game.Application.Services
             if (result == null)
                 return CustomResult.Fail($"{Messages.BOARD_STATE_NOT_FOUND_WITH_ID} {id}", HttpStatusCode.NotFound);
 
-            return CustomResult.Ok(result);
+            return CustomResult.Ok(_mapper.Map<BoardResponse>(result));
         }
 
         public CustomResult Simulate(int iterations)
@@ -70,7 +75,7 @@ namespace Game.Application.Services
             if (result == null)
                 return CustomResult.Fail($"{Messages.CURRRENT_BOARD_STATE_NOT_FOUND}", HttpStatusCode.NotFound);
 
-            return CustomResult.Ok(result);
+            return CustomResult.Ok(_mapper.Map<GridResponse>(result));
         }
 
         public CustomResult Upload(Grid grid)

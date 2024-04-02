@@ -12,10 +12,18 @@ namespace Game.Application.Mapping.Profiles
             CreateMap<GridRequest, Grid>()
                 .ForMember(d => d.Width, s => s.MapFrom(m => m.Width))
                 .ForMember(d => d.Height, s => s.MapFrom(m => m.Height))
+                .ForMember(d => d.Cells, s => s.MapFrom(m => m.Cells)).ReverseMap();
+
+            CreateMap<Grid, GridResponse>()
+                .ForMember(d => d.Width, s => s.MapFrom(m => m.Width))
+                .ForMember(d => d.Height, s => s.MapFrom(m => m.Height))
                 .ForMember(d => d.Cells, s => s.MapFrom(m => m.Cells));
 
             CreateMap<BoardRequest, BoardState>()
-                .ForMember(d => d.Grid, s => s.MapFrom(m => m.Grid)); 
+                .ForMember(d => d.Grid, s => s.MapFrom(m => m.Grid)).ReverseMap();
+
+            CreateMap<BoardState, BoardResponse>()
+                .ForMember(d => d.Grid, s => s.MapFrom(m => m.Grid)).ReverseMap();
         }
     }
 }
