@@ -66,9 +66,9 @@ namespace Game.Infra.Data.Core
             return response != null ? new CustomResult(response, httpStatusCode) : new CustomResult(true, Enumerable.Empty<string>(), httpStatusCode);
         }
 
-        public static CustomResult Fail(string errorMessage)
+        public static CustomResult Fail(string errorMessage, HttpStatusCode? httpStatusCode = null)
         {
-            return new CustomResult(false, new List<string> { errorMessage });
+            return new CustomResult(false, new List<string> { errorMessage }, httpStatusCode: httpStatusCode);
         }
 
         public static CustomResult Fail(IEnumerable<string> errorMessages)

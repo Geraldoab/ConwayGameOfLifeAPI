@@ -9,12 +9,12 @@ namespace ConwayGameOfLife.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class GameController : ControllerBase
+    public class GamesController : ControllerBase
     {
         private readonly IGameService _gameService;
         private readonly IMapper _mapper;
 
-        public GameController(IGameService gameService, IMapper mapper)
+        public GamesController(IGameService gameService, IMapper mapper)
         {
             _gameService = gameService;
             _mapper = mapper;

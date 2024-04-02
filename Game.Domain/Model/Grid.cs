@@ -4,6 +4,6 @@
     {
         public int Width { get; set; }
         public int Height { get; set; }
-        public int[,] Cells { get; set; }
+        public int[,] Cells { get; set; } = null!;
     }
 }
