@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Game.Application.Contracts;
+using Game.Application.Contracts.Core;
 using Game.Domain.Model;
 
 namespace Game.Application.Mapping.Profiles
@@ -8,10 +9,13 @@ namespace Game.Application.Mapping.Profiles
     {
         public BoardProfile()
         {
-            CreateMap<BoardStatePostRequest, BoardState>()
-                .ForMember(d => d.Grid.Width, s => s.MapFrom(m => m.Board.GridRequest.Width))
-                .ForMember(d => d.Grid.Height, s => s.MapFrom(m => m.Board.GridRequest.Height))
-                .ForMember(d => d.Grid.Cells, s => s.MapFrom(m => m.Board.GridRequest.Cells));
+            CreateMap<GridRequest, Grid>()
+                .ForMember(d => d.Width, s => s.MapFrom(m => m.Width))
+                .ForMember(d => d.Height, s => s.MapFrom(m => m.Height))
+                .ForMember(d => d.Cells, s => s.MapFrom(m => m.Cells));
+
+            CreateMap<BoardRequest, BoardState>()
+                .ForMember(d => d.Grid, s => s.MapFrom(m => m.Grid)); 
         }
     }
 }
