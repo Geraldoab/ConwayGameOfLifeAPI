@@ -61,6 +61,42 @@ namespace Game.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The board cells are required.
+        /// </summary>
+        public static string BOARD_CELLS_IS_REQUIRED {
+            get {
+                return ResourceManager.GetString("BOARD_CELLS_IS_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The board cells must be between 10 and 100.
+        /// </summary>
+        public static string BOARD_CELLS_OUT_OF_RANGE {
+            get {
+                return ResourceManager.GetString("BOARD_CELLS_OUT_OF_RANGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The board is required..
+        /// </summary>
+        public static string BOARD_IS_REQUIRED {
+            get {
+                return ResourceManager.GetString("BOARD_IS_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The board must be a square between 10 and 100.
+        /// </summary>
+        public static string BOARD_MUST_BE_A_SQUARE {
+            get {
+                return ResourceManager.GetString("BOARD_MUST_BE_A_SQUARE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Board not found with id.
         /// </summary>
         public static string BOARD_STATE_NOT_FOUND_WITH_ID {
@@ -75,6 +111,24 @@ namespace Game.Domain.Resources {
         public static string CURRRENT_BOARD_STATE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("CURRRENT_BOARD_STATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The height must be between 10 and 100.
+        /// </summary>
+        public static string HEIGHT_OUT_OF_RANGE {
+            get {
+                return ResourceManager.GetString("HEIGHT_OUT_OF_RANGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Board&apos;s grid is invalid.
+        /// </summary>
+        public static string INVALID_BOARD_GRID {
+            get {
+                return ResourceManager.GetString("INVALID_BOARD_GRID", resourceCulture);
             }
         }
         
@@ -111,6 +165,15 @@ namespace Game.Domain.Resources {
         public static string INVALID_NEXT_STATE {
             get {
                 return ResourceManager.GetString("INVALID_NEXT_STATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The width must be between 10 and 100.
+        /// </summary>
+        public static string WIDTH_OUT_OF_RANGE {
+            get {
+                return ResourceManager.GetString("WIDTH_OUT_OF_RANGE", resourceCulture);
             }
         }
     }

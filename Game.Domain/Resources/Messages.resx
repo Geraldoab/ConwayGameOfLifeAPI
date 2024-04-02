@@ -117,11 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BOARD_CELLS_IS_REQUIRED" xml:space="preserve">
+    <value>The board cells are required</value>
+  </data>
+  <data name="BOARD_CELLS_OUT_OF_RANGE" xml:space="preserve">
+    <value>The board cells must be between 10 and 100</value>
+  </data>
+  <data name="BOARD_IS_REQUIRED" xml:space="preserve">
+    <value>The board is required.</value>
+  </data>
+  <data name="BOARD_MUST_BE_A_SQUARE" xml:space="preserve">
+    <value>The board must be a square between 10 and 100</value>
+  </data>
   <data name="BOARD_STATE_NOT_FOUND_WITH_ID" xml:space="preserve">
     <value>Board not found with id</value>
   </data>
   <data name="CURRRENT_BOARD_STATE_NOT_FOUND" xml:space="preserve">
     <value>Current board not found</value>
+  </data>
+  <data name="HEIGHT_OUT_OF_RANGE" xml:space="preserve">
+    <value>The height must be between 10 and 100</value>
+  </data>
+  <data name="INVALID_BOARD_GRID" xml:space="preserve">
+    <value>The Board's grid is invalid</value>
   </data>
   <data name="INVALID_BOARD_ID" xml:space="preserve">
     <value>The current board id is invalid</value>
@@ -134,5 +152,8 @@
   </data>
   <data name="INVALID_NEXT_STATE" xml:space="preserve">
     <value>Cannot generate the games' next state</value>
+  </data>
+  <data name="WIDTH_OUT_OF_RANGE" xml:space="preserve">
+    <value>The width must be between 10 and 100</value>
   </data>
 </root>

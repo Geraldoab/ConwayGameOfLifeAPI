@@ -107,12 +107,11 @@ namespace Infra.Data.Repositories
 
         public BoardState? RemoveById(int id)
         {
-            BoardState? selectedBoard = null;
-            if (_boards.ContainsKey(id))
-            {
-                selectedBoard = _boards[id];
-                _boards.Remove(id);
-            }
+            if (!_boards.ContainsKey(id))
+                return null;
+
+            var selectedBoard = _boards[id];
+            _boards.Remove(id);
 
             return selectedBoard;
         }
