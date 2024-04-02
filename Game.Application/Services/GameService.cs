@@ -10,7 +10,7 @@ using System.Net;
 
 namespace Game.Application.Services
 {
-    internal class GameService : IGameService
+    public class GameService : IGameService
     {
         private readonly IGameRepository _gameRepository;
         private readonly IMapper _mapper;
@@ -80,6 +80,9 @@ namespace Game.Application.Services
 
         public CustomResult Upload(Grid grid)
         {
+            if (grid == null || !grid.Validate().IsValid)
+                return CustomResult.Fail(Messages.INVALID_BOARD_GRID);
+
             var result = _gameRepository.Upload(grid);
             return CustomResult.Ok(result);
         }

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Game.Application.Contracts.Core;
+using Game.Domain.Resources;
 
 namespace Game.Application.Contracts
 {
@@ -18,18 +19,18 @@ namespace Game.Application.Contracts
     {
         public BoardStatePostRequestValidation()
         {
-            RuleFor(o => o.Board).NotNull().WithMessage("The board is required.");
+            RuleFor(o => o.Board).NotNull().WithMessage(Messages.BOARD_IS_REQUIRED);
             When(o => o.Board != null, () =>
             {
-                RuleFor(o => o.Board.Grid.Width).InclusiveBetween(10, 100).WithMessage("The width must be between 10 and 100");
-                RuleFor(o => o.Board.Grid.Height).InclusiveBetween(10, 100).WithMessage("The height must be between 10 and 100");
+                RuleFor(o => o.Board.Grid.Width).InclusiveBetween(10, 100).WithMessage(Messages.WIDTH_OUT_OF_RANGE);
+                RuleFor(o => o.Board.Grid.Height).InclusiveBetween(10, 100).WithMessage(Messages.HEIGHT_OUT_OF_RANGE);
                 
-                RuleFor(o => o.Board.Grid.Cells).NotNull().NotEmpty().WithMessage("The board cells are required");
-                RuleFor(o => o.Board.Grid.Cells.Length).InclusiveBetween(10, 100).WithMessage("The board cells must be between 10 and 100");
+                RuleFor(o => o.Board.Grid.Cells).NotNull().NotEmpty().WithMessage(Messages.BOARD_CELLS_IS_REQUIRED);
+                RuleFor(o => o.Board.Grid.Cells.Length).InclusiveBetween(10, 100).WithMessage(Messages.BOARD_CELLS_OUT_OF_RANGE);
 
                 RuleFor(o => o.Board)
                 .Must(b => b.Grid.Height == b.Grid.Width)
-                .WithMessage("The board must be a square between 10 and 100");
+                .WithMessage(Messages.BOARD_MUST_BE_A_SQUARE);
             });
         }
     }
