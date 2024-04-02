@@ -1,5 +1,5 @@
 ﻿using Game.Domain.Model;
-using Game.Interface.Core;
+using Game.Interface.Core.Strategy;
 
 namespace Game.Interface
 {
@@ -11,23 +11,50 @@ namespace Game.Interface
 
         static void Main(string[] args)
         {
-            Console.WriteLine("----------------------------------------- ((( Conway's Game of Life ))) -----------------------------------------");
-            Thread.Sleep(DELAY_MILLISECONDS);
-
             GameOfLife newGame = new GameOfLife(BOARD_SIZE, BOARD_SIZE);
-            BaseRender consoleRender = new ConsoleRender(newGame);
-            var maxGenerations = MAX_GENERATIONS;
 
-            for(int i = 0; i < maxGenerations; i ++)
+            var strategy = new RenderContext();
+            Console.WriteLine("-------------------- Select The Render Mode --------------------");
+            Console.WriteLine("1 - Console");
+            Console.WriteLine("2 - Image");
+
+            var selectedOption = Console.ReadLine();
+
+            Console.WriteLine("----------------------------------------- ((( Conway's Game of Life ))) -----------------------------------------");
+
+            switch (selectedOption)
             {
-                Console.Clear();
-                Console.WriteLine($" - Generation ({i})");
-                Console.WriteLine();
+                case "1":
+                    {
+                        strategy.RenderStrategy = new ConsoleRenderConcreteStrategy(newGame);
 
-                consoleRender.Render();
-                newGame.CreateNextGeneration();
+                        Thread.Sleep(DELAY_MILLISECONDS);
 
-                Thread.Sleep(DELAY_MILLISECONDS);
+                        for (int i = 0; i < MAX_GENERATIONS; i++)
+                        {
+                            Console.Clear();
+                            Console.WriteLine($" - Generation ({i})");
+                            Console.WriteLine();
+
+                            strategy.Execute();
+                            newGame.CreateNextGeneration();
+
+                            Thread.Sleep(DELAY_MILLISECONDS);
+                        }
+
+                        break;
+                    }
+                case "2":
+                    {
+                        strategy.RenderStrategy = new ImageRenderConcreteStrategy(newGame);
+                        strategy.Execute();
+                        break;
+                    }
+                default:
+                    {
+                        Console.WriteLine($"The selected operation ({selectedOption}) is invalid");
+                        break;
+                    }
             }
 
             Console.ReadLine();
