@@ -1,12 +1,13 @@
-﻿using Game.Domain.Model;
+﻿using Game.Domain.Core;
+using Game.Domain.Model;
 
 namespace Game.Interface.Core.Strategy
 {
     internal class ImageRenderConcreteStrategy : RenderStrategy
     {
-        private readonly GameOfLife _currentGameOfLife;
+        private readonly BaseGameOfLife _currentGameOfLife;
 
-        public ImageRenderConcreteStrategy(GameOfLife currentGameOfLife)
+        public ImageRenderConcreteStrategy(BaseGameOfLife currentGameOfLife)
         {
             _currentGameOfLife = currentGameOfLife;
         }

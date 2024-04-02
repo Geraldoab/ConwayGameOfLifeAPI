@@ -1,12 +1,12 @@
-﻿using Game.Domain.Model;
+﻿using Game.Domain.Core;
 
 namespace Game.Interface.Core.Strategy
 {
     internal class ConsoleRenderConcreteStrategy : RenderStrategy
     {
-        private readonly GameOfLife _currentGameOfLife;
+        private readonly BaseGameOfLife _currentGameOfLife;
 
-        public ConsoleRenderConcreteStrategy(GameOfLife currentGameOfLife)
+        public ConsoleRenderConcreteStrategy(BaseGameOfLife currentGameOfLife)
         {
             _currentGameOfLife = currentGameOfLife;
             Setup();
@@ -18,7 +18,7 @@ namespace Game.Interface.Core.Strategy
             {
                 for (int row = 0; row < _currentGameOfLife.Rows; row++)
                 {
-                    if (_currentGameOfLife.CurrentBoardGeneration[column, row] == GameOfLife.ALIVE)
+                    if (_currentGameOfLife.CurrentBoardGeneration[column, row] == BaseGameOfLife.ALIVE)
                         Console.Write("██");
                     else
                         Console.Write("  ");
