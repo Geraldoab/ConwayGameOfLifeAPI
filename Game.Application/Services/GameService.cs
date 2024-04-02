@@ -1,4 +1,5 @@
 ﻿using Game.Domain.Interfaces.Services;
+using Game.Domain.Model;
 
 namespace Game.Application.Services
 {
@@ -11,6 +12,10 @@ namespace Game.Application.Services
 
         public void Start()
         {
+            GameOfLife newGame = new GameOfLife();
+
+            var currentBoard = newGame.CurrentBoardGeneration;
+
             Console.WriteLine("Ok");
         }
     }
