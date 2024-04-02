@@ -1,4 +1,5 @@
-﻿using Game.Domain.Model;
+﻿using Game.Domain.Core;
+using Game.Domain.Model;
 using Game.Interface.Core.Strategy;
 
 namespace Game.Interface
@@ -11,7 +12,7 @@ namespace Game.Interface
 
         static void Main(string[] args)
         {
-            GameOfLife newGame = new GameOfLife(BOARD_SIZE, BOARD_SIZE);
+            BaseGameOfLife newGame = new GameOfLife(BOARD_SIZE, BOARD_SIZE);
 
             var strategy = new RenderContext();
             Console.WriteLine("-------------------- Select The Render Mode --------------------");
