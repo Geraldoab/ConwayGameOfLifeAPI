@@ -8,9 +8,10 @@ namespace Game.Application.Mapping.Profiles
     {
         public BoardProfile()
         {
-            CreateMap<BoardStatePostRequest, Board>()
-                .ForMember(d => d.Width, s => s.MapFrom(m => m.Board.Width))
-                .ForMember(d => d.Height, s => s.MapFrom(m => m.Board.Height));
+            CreateMap<BoardStatePostRequest, BoardState>()
+                .ForMember(d => d.Grid.Width, s => s.MapFrom(m => m.Board.GridRequest.Width))
+                .ForMember(d => d.Grid.Height, s => s.MapFrom(m => m.Board.GridRequest.Height))
+                .ForMember(d => d.Grid.Cells, s => s.MapFrom(m => m.Board.GridRequest.Cells));
         }
     }
 }

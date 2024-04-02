@@ -2,7 +2,8 @@
 
 namespace Game.Application.Contracts
 {
-    public class BoardRequest : BaseBoardDto
+    public class BoardRequest
     {
+        public required GridRequest GridRequest { get; set; }
     }
 }
