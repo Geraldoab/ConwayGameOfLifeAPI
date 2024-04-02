@@ -1,6 +1,6 @@
 ﻿namespace Game.Application.Contracts.Core
 {
-    public class GridRequest : BaseGrid
+    public class GridResponse : BaseGrid
     {
     }
 }
