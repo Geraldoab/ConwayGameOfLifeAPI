@@ -1,5 +1,8 @@
 ﻿namespace Game.Domain.Core
 {
+    /// <summary>
+    /// Base class to control the game behavior. It's possible to improve memory consumption by changing <code>int[,]</code> to <code>byte[,]</code>
+    /// </summary>
     public abstract class BaseGameOfLife
     {
         protected const int DEAD = 0;
@@ -44,7 +47,7 @@
         protected abstract void CreateInitialPopulation();
 
         /// <summary>
-        /// Check if the current game is stable
+        /// Check if the current game is stable. Track whether the game has reached a conclusion.
         /// </summary>
         /// <returns>Returns <code>true</code> if the current game of life is stable</returns>
         public abstract bool IsStable();
