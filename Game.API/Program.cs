@@ -1,4 +1,5 @@
 using Game.API.Filters;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -22,8 +23,14 @@ namespace ConwayGameOfLife
             });
            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddApiVersioning(o => {
+                o.ReportApiVersions = true;
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });
 
             builder.Services.RegisterDataDependencies();
             builder.Services.RegisterApplicationDependencies();
