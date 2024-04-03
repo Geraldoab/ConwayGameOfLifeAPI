@@ -3,31 +3,41 @@ using Game.Domain.Interfaces.Repositories;
 using Game.Domain.Entities;
 using Game.Infra.Data.Repositories;
 using Game.Infra.Data.Context;
+using Game.Infra.Data.Helpers;
 
 namespace Infra.Data.Repositories
 {
     internal class GameRepository : BaseRepository<Grid>, IGameRepository
     {
-        private static Dictionary<int, BoardState> _boards = new Dictionary<int, BoardState>();
-        private static int _boardId = 1;
         private BaseGameOfLife _game;
+
+        // TODO: For test purpose only. It needs to be removed for production
+        private static int _items;
 
         public GameRepository(GameContext gameContext) : base(gameContext) 
         {
             _game = new GameOfLife();
         }
 
-        public async Task<int> UploadAsync(Grid grid, CancellationToken cancellationToken)
+        public async Task<string> UploadAsync(Grid grid, CancellationToken cancellationToken)
         {
-            var newBoardState = CreateState(grid);
-            _boards.Add(newBoardState.Id, newBoardState);
-
             _game = new GameOfLife(grid.Width, grid.Height, grid.Cells);
 
-            return newBoardState.Id;
+            var newGrid = await AddAsync(new Grid()
+            {
+                Width = _game.Cols,
+                Height = _game.Rows,
+                TwoDimensionalStringArray = ArrayHelper.SerializeFrom2DArrayToString(_game.CurrentBoardGeneration)
+            }, cancellationToken);
+
+            await CommitAsync();
+
+            _items = await CountAsync(cancellationToken);
+
+            return newGrid.Id;
         }
 
-        public async Task<BoardState> GetNextStateAsync(CancellationToken cancellationToken)
+        public async Task<BoardState?> GetNextStateAsync(CancellationToken cancellationToken)
         {
             _game.CreateNextGeneration();
 
@@ -35,12 +45,17 @@ namespace Infra.Data.Repositories
             {
                 Width = _game.Cols,
                 Height = _game.Rows,
-                Cells = _game.CurrentBoardGeneration
+                Cells = _game.CurrentBoardGeneration,
+                TwoDimensionalStringArray = ArrayHelper.SerializeFrom2DArrayToString(_game.CurrentBoardGeneration)
             };
 
-            var nextBoardState = CreateState(newGrid);
+            var nextBoardState = CreateBoardState(newGrid);
 
-            _boards.Add(nextBoardState.Id, nextBoardState);
+            await AddAsync(newGrid, cancellationToken);
+
+            await CommitAsync();
+
+            _items = await CountAsync(cancellationToken);
 
             return nextBoardState;
         }
@@ -50,28 +65,38 @@ namespace Infra.Data.Repositories
             if (iterations < 0)
                 return null;
 
-            var newSimulatedState = new BoardState();
+            Grid newGrid;
+
+            var gridTaskList = new List<Task>();
+            var gridList = new List<Grid>();
 
             for (int i = 0; i < iterations; i++)
             {
                 _game.CreateNextGeneration();
 
-                newSimulatedState = CreateState(new Grid()
+                gridTaskList.Add(Task.Factory.StartNew(() =>
                 {
-                    Width = _game.Cols,
-                    Height = _game.Rows,
-                    Cells = _game.CurrentBoardGeneration
-                });
+                    newGrid = new Grid()
+                    {
+                        Width = _game.Cols,
+                        Height = _game.Rows,
+                        Cells = _game.CurrentBoardGeneration,
+                        TwoDimensionalStringArray = ArrayHelper.SerializeFrom2DArrayToString(_game.CurrentBoardGeneration)
+                    };
 
-                _boards.Add(newSimulatedState.Id, newSimulatedState);
+                    gridList.Add(newGrid);
+
+                }));
             }
 
-            return new Grid()
-            {
-                Width = _game.Cols,
-                Height = _game.Rows,
-                Cells = _game.CurrentBoardGeneration
-            };
+            Task.WaitAll(gridTaskList.ToArray());
+
+            await AddAsync(gridList, cancellationToken);
+            await CommitAsync();
+
+            _items = await CountAsync(cancellationToken);
+
+            return gridList.Last();
         }
 
         public async Task<BoardState?> GetFinalStateAsync(int iterations, CancellationToken cancellationToken)
@@ -81,48 +106,79 @@ namespace Infra.Data.Repositories
 
             bool isCompleted = false;
 
+            Grid newGrid;
+
+            var gridTaskList = new List<Task>();
+            var gridList = new List<Grid>();
+
             for (int i = 0; i < iterations; i++)
             {
                 _game.CreateNextGeneration();
-                if(_game.IsStable())
+
+                gridTaskList.Add(Task.Factory.StartNew(() =>
+                {
+                    newGrid = new Grid()
+                    {
+                        Width = _game.Cols,
+                        Height = _game.Rows,
+                        Cells = _game.CurrentBoardGeneration,
+                        TwoDimensionalStringArray = ArrayHelper.SerializeFrom2DArrayToString(_game.CurrentBoardGeneration)
+                    };
+
+                    gridList.Add(newGrid);
+
+                }));
+
+                if (_game.IsStable())
                 {
                     isCompleted = true;
                     break;
                 }
             }
 
-            return isCompleted ? CreateState(new Grid()
-            {
-                Width = _game.Cols,
-                Height = _game.Rows,
-                Cells = _game.CurrentBoardGeneration
-            }) : null;
+            Task.WaitAll(gridTaskList.ToArray());
+
+            await AddAsync(gridList, cancellationToken);
+            await CommitAsync();
+
+            _items = await CountAsync(cancellationToken);
+
+            return isCompleted ? CreateBoardState(gridList.Last()) : null;
         }
 
-        public async Task<BoardState?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<BoardState?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            if (!_boards.ContainsKey(id))
+            var grid = await FindAsync(id.ToString(), cancellationToken);
+            if (grid != null)
+                grid.Cells = ArrayHelper.DeserializeFromStringTo2DArray(grid.TwoDimensionalStringArray);
+
+            return CreateBoardState(grid);
+        }
+
+        public async Task<BoardState?> RemoveByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var grid = await RemoveByIdAsync(id.ToString(), cancellationToken);
+            
+            if (grid == null)
                 return null;
 
-            return _boards[id];
+            await CommitAsync();
+
+            if (grid != null)
+                grid.Cells = ArrayHelper.DeserializeFromStringTo2DArray(grid.TwoDimensionalStringArray);
+
+            _items = await CountAsync(cancellationToken);
+
+            return CreateBoardState(grid); 
         }
 
-        public async Task<BoardState?> RemoveByIdAsync(int id, CancellationToken cancellationToken)
+        private BoardState? CreateBoardState(Grid? grid)
         {
-            if (!_boards.ContainsKey(id))
+            if (grid == null)
                 return null;
 
-            var selectedBoard = _boards[id];
-            _boards.Remove(id);
-
-            return selectedBoard;
-        }
-
-        private BoardState CreateState(Grid grid)
-        {
             return new BoardState()
             {
-                Id = _boardId++,
                 Grid = grid
             };
         }

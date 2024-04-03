@@ -4,7 +4,7 @@ namespace Game.Infra.Data.Helpers
 {
     public static class ArrayHelper
     {
-        public static int[,] DeserializeFromStringTo2DArray(string twoDimensionalStringArray)
+        public static int[,] DeserializeFromStringTo2DArray(string? twoDimensionalStringArray)
         {
             if (string.IsNullOrEmpty(twoDimensionalStringArray))
                 return new int[0, 0];

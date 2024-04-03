@@ -26,12 +26,12 @@ namespace ConwayGameOfLife.Controllers
         /// </summary>
         /// <param name="id">The Board's Id</param>
         /// <returns>The selected board state</returns>
-        [HttpGet("/boards/{id}")]
+        [HttpGet("/boards/{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 60)]
-        public async Task<IActionResult> GetBoardsById([FromRoute(Name = "id")] int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBoardsById([FromRoute(Name = "id")] Guid id, CancellationToken cancellationToken)
         {
             var response = await _gameService.GetByIdAsync(id, cancellationToken);
 
@@ -75,11 +75,11 @@ namespace ConwayGameOfLife.Controllers
         /// </summary>
         /// <param name="id">The Board's Id</param>
         /// <returns>The deleted board state</returns>
-        [HttpDelete("/boards/{id}")]
+        [HttpDelete("/boards/{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> RemoveBoardById([FromRoute(Name = "id")] int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> RemoveBoardById([FromRoute(Name = "id")] Guid id, CancellationToken cancellationToken)
         {
             var response = await _gameService.RemoveByIdAsync(id, cancellationToken);
 

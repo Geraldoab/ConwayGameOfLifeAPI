@@ -153,6 +153,9 @@
   <data name="INVALID_NEXT_STATE" xml:space="preserve">
     <value>Cannot generate the games' next state</value>
   </data>
+  <data name="MAX_NUMBER_OF_ITERATIONS_WAS_REACHED" xml:space="preserve">
+    <value>The maximum number of iterations was reached</value>
+  </data>
   <data name="WIDTH_OUT_OF_RANGE" xml:space="preserve">
     <value>The width must be between 10 and 100</value>
   </data>

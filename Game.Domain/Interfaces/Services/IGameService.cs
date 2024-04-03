@@ -9,7 +9,7 @@ namespace Game.Domain.Interfaces.Services
         Task<CustomResult> GetNextStateAsync(CancellationToken cancellationToken);
         Task<CustomResult> SimulateAsync(int iterations, CancellationToken cancellationToken);
         Task<CustomResult> GetFinalStateAsync(int iterations, CancellationToken cancellationToken);
-        Task<CustomResult> GetByIdAsync(int id, CancellationToken cancellationToken);
-        Task<CustomResult> RemoveByIdAsync(int id, CancellationToken cancellationToken);
+        Task<CustomResult> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<CustomResult> RemoveByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }
