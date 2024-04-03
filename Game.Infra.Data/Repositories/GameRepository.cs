@@ -1,16 +1,18 @@
 ﻿using Game.Domain.Core;
 using Game.Domain.Interfaces.Repositories;
-using Game.Domain.Model;
+using Game.Domain.Entities;
+using Game.Infra.Data.Repositories;
+using Game.Infra.Data.Context;
 
 namespace Infra.Data.Repositories
 {
-    internal class GameRepository : IGameRepository
+    internal class GameRepository : BaseRepository<Grid>, IGameRepository
     {
         private static Dictionary<int, BoardState> _boards = new Dictionary<int, BoardState>();
         private static int _boardId = 1;
         private BaseGameOfLife _game;
 
-        public GameRepository()
+        public GameRepository(GameContext gameContext) : base(gameContext) 
         {
             _game = new GameOfLife();
         }

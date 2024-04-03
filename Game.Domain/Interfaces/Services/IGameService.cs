@@ -1,4 +1,4 @@
-﻿using Game.Domain.Model;
+﻿using Game.Domain.Entities;
 using Game.Infra.Data.Core;
 
 namespace Game.Domain.Interfaces.Services

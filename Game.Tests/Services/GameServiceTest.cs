@@ -2,7 +2,7 @@ using AutoMapper;
 using FluentAssertions;
 using Game.Application.Services;
 using Game.Domain.Interfaces.Repositories;
-using Game.Domain.Model;
+using Game.Domain.Entities;
 using Game.Domain.Resources;
 using Moq;
 using System.Net;

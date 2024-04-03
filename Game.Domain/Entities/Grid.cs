@@ -1,13 +1,23 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Game.Domain.Core;
 using Game.Domain.Resources;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Game.Domain.Model
+namespace Game.Domain.Entities
 {
-    public class Grid
+    public sealed class Grid : Entity
     {
         public int Width { get; set; }
+
         public int Height { get; set; }
+
+        /// <summary>
+        /// The 2D array represented into a comma-separated string
+        /// </summary>
+        public string TwoDimensionalStringArray { get; set; }
+
+        [NotMapped]
         public int[,] Cells { get; set; } = null!;
 
         public ValidationResult Validate()

@@ -1,6 +1,6 @@
-﻿namespace Game.Domain.Model
+﻿namespace Game.Domain.Entities
 {
-    public class BoardState
+    public sealed class BoardState
     {
         public int Id { get; set; }
 

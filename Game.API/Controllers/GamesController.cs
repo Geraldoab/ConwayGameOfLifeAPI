@@ -1,7 +1,7 @@
 using AutoMapper;
 using Game.Application.Contracts;
 using Game.Domain.Interfaces.Services;
-using Game.Domain.Model;
+using Game.Domain.Entities;
 using Game.Infra.Data.Core;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
