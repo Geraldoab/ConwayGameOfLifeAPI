@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Game.Application.Contracts;
 using Game.Application.Contracts.Core;
-using Game.Domain.Model;
+using Game.Domain.Entities;
 
 namespace Game.Application.Mapping.Profiles
 {

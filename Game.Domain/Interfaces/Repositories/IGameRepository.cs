@@ -1,4 +1,4 @@
-﻿using Game.Domain.Model;
+﻿using Game.Domain.Entities;
 
 namespace Game.Domain.Interfaces.Repositories
 {

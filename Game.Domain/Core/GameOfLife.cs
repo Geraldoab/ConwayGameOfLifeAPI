@@ -1,8 +1,6 @@
-﻿using Game.Domain.Core;
-
-namespace Game.Domain.Model
+﻿namespace Game.Domain.Core
 {
-    public class GameOfLife : BaseGameOfLife
+    public sealed class GameOfLife : BaseGameOfLife
     {
         public GameOfLife() : base() { }
         public GameOfLife(int numberOfColumns, int numberOfRows) : base(numberOfColumns, numberOfRows) { }
@@ -11,7 +9,7 @@ namespace Game.Domain.Model
 
         public override bool IsStable()
         {
-            for(int column = 0; column < Cols;  column++)
+            for (int column = 0; column < Cols; column++)
             {
                 for (int row = 0; row < Rows; row++)
                 {

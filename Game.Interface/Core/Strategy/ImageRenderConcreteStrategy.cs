@@ -1,5 +1,4 @@
 ﻿using Game.Domain.Core;
-using Game.Domain.Model;
 
 namespace Game.Interface.Core.Strategy
 {

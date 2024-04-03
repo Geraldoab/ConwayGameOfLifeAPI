@@ -3,7 +3,7 @@ using Game.Application.Contracts;
 using Game.Application.Contracts.Core;
 using Game.Domain.Interfaces.Repositories;
 using Game.Domain.Interfaces.Services;
-using Game.Domain.Model;
+using Game.Domain.Entities;
 using Game.Domain.Resources;
 using Game.Infra.Data.Core;
 using System.Net;
