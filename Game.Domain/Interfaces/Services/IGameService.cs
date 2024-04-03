@@ -5,11 +5,11 @@ namespace Game.Domain.Interfaces.Services
 {
     public interface IGameService
     {
-        CustomResult Upload(Grid grid);
-        CustomResult GetNextState();
-        CustomResult Simulate(int iterations);
-        CustomResult GetFinalState(int iterations);
-        CustomResult GetById(int id);
-        CustomResult RemoveById(int id);
+        Task<CustomResult> UploadAsync(Grid grid, CancellationToken cancellationToken);
+        Task<CustomResult> GetNextStateAsync(CancellationToken cancellationToken);
+        Task<CustomResult> SimulateAsync(int iterations, CancellationToken cancellationToken);
+        Task<CustomResult> GetFinalStateAsync(int iterations, CancellationToken cancellationToken);
+        Task<CustomResult> GetByIdAsync(int id, CancellationToken cancellationToken);
+        Task<CustomResult> RemoveByIdAsync(int id, CancellationToken cancellationToken);
     }
 }

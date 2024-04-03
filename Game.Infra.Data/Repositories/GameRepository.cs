@@ -17,7 +17,7 @@ namespace Infra.Data.Repositories
             _game = new GameOfLife();
         }
 
-        public int Upload(Grid grid) // 1
+        public async Task<int> UploadAsync(Grid grid, CancellationToken cancellationToken)
         {
             var newBoardState = CreateState(grid);
             _boards.Add(newBoardState.Id, newBoardState);
@@ -27,7 +27,7 @@ namespace Infra.Data.Repositories
             return newBoardState.Id;
         }
 
-        public BoardState GetNextState() // 2
+        public async Task<BoardState> GetNextStateAsync(CancellationToken cancellationToken)
         {
             _game.CreateNextGeneration();
 
@@ -45,7 +45,7 @@ namespace Infra.Data.Repositories
             return nextBoardState;
         }
 
-        public Grid? Simulate(int iterations) // 3
+        public async Task<Grid?> SimulateAsync(int iterations, CancellationToken cancellationToken)
         {
             if (iterations < 0)
                 return null;
@@ -74,7 +74,7 @@ namespace Infra.Data.Repositories
             };
         }
 
-        public BoardState? GetFinalState(int iterations) // 4
+        public async Task<BoardState?> GetFinalStateAsync(int iterations, CancellationToken cancellationToken)
         {
             if (iterations < 0)
                 return null;
@@ -99,7 +99,7 @@ namespace Infra.Data.Repositories
             }) : null;
         }
 
-        public BoardState? GetById(int id)
+        public async Task<BoardState?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             if (!_boards.ContainsKey(id))
                 return null;
@@ -107,7 +107,7 @@ namespace Infra.Data.Repositories
             return _boards[id];
         }
 
-        public BoardState? RemoveById(int id)
+        public async Task<BoardState?> RemoveByIdAsync(int id, CancellationToken cancellationToken)
         {
             if (!_boards.ContainsKey(id))
                 return null;

@@ -21,69 +21,69 @@ namespace Game.Application.Services
             _mapper = mapper;
         }
 
-        public CustomResult GetById(int id)
+        public async Task<CustomResult> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             if (id < 1)
                 return CustomResult.Fail($"{Messages.INVALID_BOARD_ID} {id}");
 
-            var result = _gameRepository.GetById(id);
+            var result = await _gameRepository.GetByIdAsync(id, cancellationToken);
             if (result == null)
                 return CustomResult.Fail($"{Messages.BOARD_STATE_NOT_FOUND_WITH_ID} {id}", HttpStatusCode.NotFound);
 
             return CustomResult.Ok(_mapper.Map<BoardResponse>(result));
         }
 
-        public CustomResult GetFinalState(int iterations)
+        public async Task<CustomResult> GetFinalStateAsync(int iterations, CancellationToken cancellationToken)
         {
             if (iterations < 1)
                 return CustomResult.Fail(Messages.INVALID_ITERATIONS);
 
-            var result = _gameRepository.GetFinalState(iterations);
+            var result = await _gameRepository.GetFinalStateAsync(iterations, cancellationToken);
             if (result == null)
                 return CustomResult.Fail(Messages.INVALID_FINAL_STATE);
 
             return CustomResult.Ok(_mapper.Map<BoardResponse>(result));
         }
 
-        public CustomResult GetNextState()
+        public async Task<CustomResult> GetNextStateAsync(CancellationToken cancellationToken)
         {
-            var result = _gameRepository.GetNextState();
+            var result = await _gameRepository.GetNextStateAsync(cancellationToken);
             if (result == null)
                 return CustomResult.Fail(Messages.INVALID_NEXT_STATE);
 
             return CustomResult.Ok(_mapper.Map<BoardResponse>(result));
         }
 
-        public CustomResult RemoveById(int id)
+        public async Task<CustomResult> RemoveByIdAsync(int id, CancellationToken cancellationToken)
         {
             if (id < 1)
                 return CustomResult.Fail($"{Messages.INVALID_BOARD_ID} {id}");
 
-            var result = _gameRepository.RemoveById(id);
+            var result = await _gameRepository.RemoveByIdAsync(id, cancellationToken);
             if (result == null)
                 return CustomResult.Fail($"{Messages.BOARD_STATE_NOT_FOUND_WITH_ID} {id}", HttpStatusCode.NotFound);
 
             return CustomResult.Ok(_mapper.Map<BoardResponse>(result));
         }
 
-        public CustomResult Simulate(int iterations)
+        public async Task<CustomResult> SimulateAsync(int iterations, CancellationToken cancellationToken)
         {
             if (iterations < 1)
                 return CustomResult.Fail(Messages.INVALID_ITERATIONS);
 
-            var result = _gameRepository.Simulate(iterations);
+            var result = await _gameRepository.SimulateAsync(iterations, cancellationToken);
             if (result == null)
                 return CustomResult.Fail($"{Messages.CURRRENT_BOARD_STATE_NOT_FOUND}", HttpStatusCode.NotFound);
 
             return CustomResult.Ok(_mapper.Map<GridResponse>(result));
         }
 
-        public CustomResult Upload(Grid grid)
+        public async Task<CustomResult> UploadAsync(Grid grid, CancellationToken cancellationToken)
         {
             if (grid == null || !grid.Validate().IsValid)
                 return CustomResult.Fail(Messages.INVALID_BOARD_GRID);
 
-            var result = _gameRepository.Upload(grid);
+            var result = await _gameRepository.UploadAsync(grid, cancellationToken);
             return CustomResult.Ok(result);
         }
     }

@@ -24,17 +24,17 @@ namespace Game.Tests.Services
 
         private void SetupFailure()
         {
-            _gameRepositoryMock.Setup(s => s.GetById(It.IsAny<int>())).Returns(It.IsAny<BoardState>());
+            _gameRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
             
-            _gameRepositoryMock.Setup(s => s.GetFinalState(It.IsAny<int>())).Returns(It.IsAny<BoardState>());
+            _gameRepositoryMock.Setup(s => s.GetFinalStateAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
 
-            _gameRepositoryMock.Setup(s => s.GetNextState()).Returns(It.IsAny<BoardState>());
+            _gameRepositoryMock.Setup(s => s.GetNextStateAsync(It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
 
-            _gameRepositoryMock.Setup(s => s.RemoveById(It.IsAny<int>())).Returns(It.IsAny<BoardState>());
+            _gameRepositoryMock.Setup(s => s.RemoveByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
 
-            _gameRepositoryMock.Setup(s => s.Simulate(It.IsAny<int>())).Returns(It.IsAny<Grid>());
+            _gameRepositoryMock.Setup(s => s.SimulateAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<Grid>());
 
-            _gameRepositoryMock.Setup(s => s.Upload(It.IsAny<Grid>())).Returns(1);
+            _gameRepositoryMock.Setup(s => s.UploadAsync(It.IsAny<Grid>(), It.IsAny<CancellationToken>())).ReturnsAsync(1);
         }
 
         private void SetupSuccess()
@@ -50,31 +50,31 @@ namespace Game.Tests.Services
                 }
             };
 
-            _gameRepositoryMock.Setup(s => s.GetById(It.IsAny<int>())).Returns(validBoardState);
+            _gameRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
 
-            _gameRepositoryMock.Setup(s => s.GetFinalState(It.IsAny<int>())).Returns(validBoardState);
+            _gameRepositoryMock.Setup(s => s.GetFinalStateAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
 
-            _gameRepositoryMock.Setup(s => s.GetNextState()).Returns(validBoardState);
+            _gameRepositoryMock.Setup(s => s.GetNextStateAsync(It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
 
-            _gameRepositoryMock.Setup(s => s.RemoveById(It.IsAny<int>())).Returns(validBoardState);
+            _gameRepositoryMock.Setup(s => s.RemoveByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
 
-            _gameRepositoryMock.Setup(s => s.Simulate(It.IsAny<int>())).Returns(validBoardState.Grid);
+            _gameRepositoryMock.Setup(s => s.SimulateAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState.Grid);
 
-            _gameRepositoryMock.Setup(s => s.Upload(validBoardState.Grid)).Returns(1);
+            _gameRepositoryMock.Setup(s => s.UploadAsync(validBoardState.Grid, It.IsAny<CancellationToken>())).ReturnsAsync(1);
         }
 
 
         [Theory(DisplayName = "GetBoardStateById_with_invalid_id")]
         [InlineData(-1)]
         [InlineData(0)]
-        public void GetBoardStateById_with_invalid_id(int value)
+        public async Task GetBoardStateById_with_invalid_id(int value)
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.GetById(value);
+            var result = await _gameService.GetByIdAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -84,14 +84,14 @@ namespace Game.Tests.Services
 
         [Theory(DisplayName = "GetBoardStateById_returning_not_found")]
         [InlineData(100)]
-        public void GetBoardStateById_returning_not_found(int value)
+        public async Task GetBoardStateById_returning_not_found(int value)
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.GetById(value);
+            var result = await _gameService.GetByIdAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -102,14 +102,14 @@ namespace Game.Tests.Services
 
         [Theory(DisplayName = "GetBoardStateById_returning_with_success")]
         [InlineData(1)]
-        public void GetBoardStateById_returning_with_success(int value)
+        public async Task GetBoardStateById_returning_with_success(int value)
         {
             // Arrange
             SetupSuccess();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.GetById(value);
+            var result = await _gameService.GetByIdAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -120,14 +120,14 @@ namespace Game.Tests.Services
         [Theory(DisplayName = "GetFinalBoardState_with_invalid_iterations")]
         [InlineData(-1)]
         [InlineData(0)]
-        public void GetFinalBoardState_with_invalid_iterations(int value)
+        public async Task GetFinalBoardState_with_invalid_iterations(int value)
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.GetFinalState(value);
+            var result = await _gameService.GetFinalStateAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -137,14 +137,14 @@ namespace Game.Tests.Services
 
         [Theory(DisplayName = "GetFinalBoardState_returning_failure")]
         [InlineData(1)]
-        public void GetFinalBoardState_returning_failure(int value)
+        public async Task GetFinalBoardState_returning_failure(int value)
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.GetFinalState(value);
+            var result = await _gameService.GetFinalStateAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -154,14 +154,14 @@ namespace Game.Tests.Services
 
         [Theory(DisplayName = "GetFinalBoardState_returning_success")]
         [InlineData(1)]
-        public void GetFinalBoardState_returning_success(int value)
+        public async Task GetFinalBoardState_returning_success(int value)
         {
             // Arrange
             SetupSuccess();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.GetFinalState(value);
+            var result = await _gameService.GetFinalStateAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -170,14 +170,14 @@ namespace Game.Tests.Services
         }
 
         [Fact(DisplayName = "GetFinalState_returning_failure")]
-        public void GetNextState_returning_failure()
+        public async Task GetNextState_returning_failure()
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.GetNextState();
+            var result = await _gameService.GetNextStateAsync(CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -186,14 +186,14 @@ namespace Game.Tests.Services
         }
 
         [Fact(DisplayName = "GetFinalState_returning_success")]
-        public void GetNextState_returning_success()
+        public async Task GetNextState_returning_success()
         {
             // Arrange
             SetupSuccess();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.GetNextState();
+            var result = await _gameService.GetNextStateAsync(CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -204,14 +204,14 @@ namespace Game.Tests.Services
         [Theory(DisplayName = "RemoveBoardStateById_with_invalid_id")]
         [InlineData(-1)]
         [InlineData(0)]
-        public void RemoveBoardStateById_with_invalid_id(int value)
+        public async Task RemoveBoardStateById_with_invalid_id(int value)
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.RemoveById(value);
+            var result = await _gameService.RemoveByIdAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -221,14 +221,14 @@ namespace Game.Tests.Services
 
         [Theory(DisplayName = "RemoveBoardStateById_returning_not_found")]
         [InlineData(1)]
-        public void RemoveBoardStateById_returning_not_found(int value)
+        public async Task RemoveBoardStateById_returning_not_found(int value)
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.RemoveById(value);
+            var result = await _gameService.RemoveByIdAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -241,14 +241,14 @@ namespace Game.Tests.Services
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void RemoveBoardStateById_returning_success(int value)
+        public async Task RemoveBoardStateById_returning_success(int value)
         {
             // Arrange
             SetupSuccess();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.RemoveById(value);
+            var result = await _gameService.RemoveByIdAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -259,14 +259,14 @@ namespace Game.Tests.Services
         [Theory(DisplayName = "SimulatePopulations_with_invalid_iterations")]
         [InlineData(-1)]
         [InlineData(0)]
-        public void SimulatePopulations_with_invalid_iterations(int value)
+        public async Task SimulatePopulations_with_invalid_iterations(int value)
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.Simulate(value);
+            var result = await _gameService.SimulateAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -276,14 +276,14 @@ namespace Game.Tests.Services
 
         [Theory(DisplayName = "SimulatePopulations_returning_not_found")]
         [InlineData(1)]
-        public void SimulatePopulations_returning_not_found(int value)
+        public async Task SimulatePopulations_returning_not_found(int value)
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.Simulate(value);
+            var result = await _gameService.SimulateAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -294,14 +294,14 @@ namespace Game.Tests.Services
 
         [Theory(DisplayName = "SimulatePopulations_returning_success")]
         [InlineData(1)]
-        public void SimulatePopulations_returning_success(int value)
+        public async Task SimulatePopulations_returning_success(int value)
         {
             // Arrange
             SetupSuccess();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.Simulate(value);
+            var result = await _gameService.SimulateAsync(value, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -310,14 +310,14 @@ namespace Game.Tests.Services
         }
 
         [Fact(DisplayName = "UploadBoard_with_invalid_grid_null_value")]
-        public void UploadBoard_with_invalid_grid_null_value()
+        public async Task UploadBoard_with_invalid_grid_null_value()
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.Upload(It.IsAny<Grid>());
+            var result = await _gameService.UploadAsync(It.IsAny<Grid>(), CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -326,19 +326,19 @@ namespace Game.Tests.Services
         }
 
         [Fact(DisplayName = "UploadBoard_with_invalid_grid")]
-        public void UploadBoard_with_invalid_grid()
+        public async Task UploadBoard_with_invalid_grid()
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.Upload(new Grid()
+            var result = await _gameService.UploadAsync(new Grid()
             {
                 Width = 10,
                 Height = 7,
                 Cells = new int[,] { { 1, 0 }, { 1, 0 }, { 1, 0 } }
-            });
+            }, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
@@ -347,19 +347,19 @@ namespace Game.Tests.Services
         }
 
         [Fact(DisplayName = "UploadBoard_returning_success")]
-        public void UploadBoard_returning_success()
+        public async Task UploadBoard_returning_success()
         {
             // Arrange
             SetupSuccess();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = _gameService.Upload(new Grid()
+            var result = await _gameService.UploadAsync(new Grid()
             {
                 Width = 10,
                 Height = 10,
                 Cells = new int[,] { { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 } }
-            });
+            }, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
