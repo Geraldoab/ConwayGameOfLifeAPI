@@ -30,6 +30,7 @@ namespace ConwayGameOfLife.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 60)]
         public IActionResult GetBoardsById([FromRoute(Name = "id")] int id)
         {
             var response = _gameService.GetById(id);
