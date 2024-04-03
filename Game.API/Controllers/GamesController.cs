@@ -31,9 +31,9 @@ namespace ConwayGameOfLife.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ResponseCache(Location = ResponseCacheLocation.Client, Duration = 60)]
-        public IActionResult GetBoardsById([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> GetBoardsById([FromRoute(Name = "id")] int id, CancellationToken cancellationToken)
         {
-            var response = _gameService.GetById(id);
+            var response = await _gameService.GetByIdAsync(id, cancellationToken);
 
             if (response.Success)
                 return Ok(response);
@@ -55,14 +55,14 @@ namespace ConwayGameOfLife.Controllers
         [ProducesDefaultResponseType(typeof(BoardStatePostResponse))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Upload([FromBody] BoardStatePostRequest request)
+        public async Task<IActionResult> Upload([FromBody] BoardStatePostRequest request, CancellationToken cancellationToken)
         {
             var result = request.Validate();
 
             if (result.IsValid)
             {
                 var board = _mapper.Map<BoardState>(request.Board);
-                var response = _gameService.Upload(board.Grid);
+                var response = await _gameService.UploadAsync(board.Grid, cancellationToken);
                 
                 return response.Success ? Ok(response) : BadRequest(response);
             }
@@ -79,9 +79,9 @@ namespace ConwayGameOfLife.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult RemoveBoardById([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> RemoveBoardById([FromRoute(Name = "id")] int id, CancellationToken cancellationToken)
         {
-            var response = _gameService.RemoveById(id);
+            var response = await _gameService.RemoveByIdAsync(id, cancellationToken);
 
             if (response.Success)
                 return Ok(response);
@@ -101,9 +101,9 @@ namespace ConwayGameOfLife.Controllers
         [HttpGet("/boards/next")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetNextState()
+        public async Task<IActionResult> GetNextState(CancellationToken cancellationToken)
         {
-            var response = _gameService.GetNextState();
+            var response = await _gameService.GetNextStateAsync(cancellationToken);
             return response.Success ? Ok(response) : BadRequest(response);
         }
 
@@ -116,9 +116,9 @@ namespace ConwayGameOfLife.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Simulate(int iterations)
+        public async Task<IActionResult> Simulate(int iterations, CancellationToken cancellationToken)
         {
-            var response = _gameService.Simulate(iterations);
+            var response = await _gameService.SimulateAsync(iterations, cancellationToken);
             
             if(response.Success)
                 return Ok(response);
@@ -140,9 +140,9 @@ namespace ConwayGameOfLife.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetFinalState(int iterations)
+        public async Task<IActionResult> GetFinalState(int iterations, CancellationToken cancellationToken)
         {
-            var response = _gameService.GetFinalState(iterations);
+            var response = await _gameService.GetFinalStateAsync(iterations, cancellationToken);
 
             if (response.Success)
                 return Ok(response);
