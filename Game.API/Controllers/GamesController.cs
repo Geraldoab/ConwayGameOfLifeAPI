@@ -9,7 +9,8 @@ using System.Net;
 namespace ConwayGameOfLife.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class GamesController : ControllerBase
     {
         private readonly IGameService _gameService;
@@ -47,7 +48,7 @@ namespace ConwayGameOfLife.Controllers
         }
 
         /// <summary>
-        /// Uploads a new board configuration
+        /// Upload a new board configuration
         /// </summary>
         /// <param name="request">The new board configuration</param>
         /// <returns>The new id of the uploaded board</returns>
@@ -98,7 +99,7 @@ namespace ConwayGameOfLife.Controllers
         /// Generate the next board state
         /// </summary>
         /// <returns>The next board state</returns>
-        [HttpGet("/boards/next")]
+        [HttpGet("/boards/states-next")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetNextState(CancellationToken cancellationToken)
@@ -108,11 +109,11 @@ namespace ConwayGameOfLife.Controllers
         }
 
         /// <summary>
-        /// Simulate the creation of X populations
+        /// Simulate the creation of N populations. 
         /// </summary>
         /// <param name="iterations">The number of iterations to simulate</param>
         /// <returns>Returns the simulations</returns>
-        [HttpGet("/boards/simulate/{iterations}")]
+        [HttpGet("/boards/states-away/{iterations:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -136,7 +137,7 @@ namespace ConwayGameOfLife.Controllers
         /// </summary>
         /// <param name="iterations">The number of iterations to simulate</param>
         /// <returns>The final board state of the game</returns>
-        [HttpGet("/boards/states/final/{iterations}")]
+        [HttpGet("/boards/final-state/{iterations:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
