@@ -12,6 +12,7 @@ namespace Game.Application.Services
 {
     public class GameService : IGameService
     {
+        private const int MAX_NUMBER_OF_ITERATIONS = 100;
         private readonly IGameRepository _gameRepository;
         private readonly IMapper _mapper;
 
@@ -21,9 +22,9 @@ namespace Game.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<CustomResult> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<CustomResult> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            if (id < 1)
+            if (id == Guid.Empty)
                 return CustomResult.Fail($"{Messages.INVALID_BOARD_ID} {id}");
 
             var result = await _gameRepository.GetByIdAsync(id, cancellationToken);
@@ -37,6 +38,9 @@ namespace Game.Application.Services
         {
             if (iterations < 1)
                 return CustomResult.Fail(Messages.INVALID_ITERATIONS);
+
+            if (iterations > MAX_NUMBER_OF_ITERATIONS)
+                return CustomResult.Fail($"{Messages.MAX_NUMBER_OF_ITERATIONS_WAS_REACHED} {MAX_NUMBER_OF_ITERATIONS}");
 
             var result = await _gameRepository.GetFinalStateAsync(iterations, cancellationToken);
             if (result == null)
@@ -54,9 +58,9 @@ namespace Game.Application.Services
             return CustomResult.Ok(_mapper.Map<BoardResponse>(result));
         }
 
-        public async Task<CustomResult> RemoveByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<CustomResult> RemoveByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            if (id < 1)
+            if (id == Guid.Empty)
                 return CustomResult.Fail($"{Messages.INVALID_BOARD_ID} {id}");
 
             var result = await _gameRepository.RemoveByIdAsync(id, cancellationToken);
@@ -70,6 +74,9 @@ namespace Game.Application.Services
         {
             if (iterations < 1)
                 return CustomResult.Fail(Messages.INVALID_ITERATIONS);
+
+            if (iterations > MAX_NUMBER_OF_ITERATIONS)
+                return CustomResult.Fail($"{Messages.MAX_NUMBER_OF_ITERATIONS_WAS_REACHED} {MAX_NUMBER_OF_ITERATIONS}");
 
             var result = await _gameRepository.SimulateAsync(iterations, cancellationToken);
             if (result == null)

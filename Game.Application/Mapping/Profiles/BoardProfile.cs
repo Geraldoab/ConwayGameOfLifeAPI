@@ -15,6 +15,7 @@ namespace Game.Application.Mapping.Profiles
                 .ForMember(d => d.Cells, s => s.MapFrom(m => m.Cells)).ReverseMap();
 
             CreateMap<Grid, GridResponse>()
+                .ForMember(d => d.Id, s => s.MapFrom(m=> m.Id))
                 .ForMember(d => d.Width, s => s.MapFrom(m => m.Width))
                 .ForMember(d => d.Height, s => s.MapFrom(m => m.Height))
                 .ForMember(d => d.Cells, s => s.MapFrom(m => m.Cells));

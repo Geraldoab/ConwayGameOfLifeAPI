@@ -23,7 +23,7 @@ namespace Game.Infra.Data.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(GameContext).Assembly);
 
             /*
-             * Only for testing purpose. In a production environment with many microservices, a rollback strategy could be quite complex to implement.
+             * For test purposes only. In a production environment with many microservices, a rollback strategy could be quite complex to implement.
              * However, we can use some patterns like SAGA Pattern to achieve it.
              */
             foreach (var relationship in modelBuilder.Model.GetEntityTypes()

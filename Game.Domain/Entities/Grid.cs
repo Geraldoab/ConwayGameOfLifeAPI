@@ -15,7 +15,7 @@ namespace Game.Domain.Entities
         /// <summary>
         /// The 2D array represented into a comma-separated string
         /// </summary>
-        public string TwoDimensionalStringArray { get; set; }
+        public string? TwoDimensionalStringArray { get; set; }
 
         [NotMapped]
         public int[,] Cells { get; set; } = null!;

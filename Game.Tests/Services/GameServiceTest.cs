@@ -24,24 +24,23 @@ namespace Game.Tests.Services
 
         private void SetupFailure()
         {
-            _gameRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
+            _gameRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
             
             _gameRepositoryMock.Setup(s => s.GetFinalStateAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
 
             _gameRepositoryMock.Setup(s => s.GetNextStateAsync(It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
 
-            _gameRepositoryMock.Setup(s => s.RemoveByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
+            _gameRepositoryMock.Setup(s => s.RemoveByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<BoardState>());
 
             _gameRepositoryMock.Setup(s => s.SimulateAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(It.IsAny<Grid>());
 
-            _gameRepositoryMock.Setup(s => s.UploadAsync(It.IsAny<Grid>(), It.IsAny<CancellationToken>())).ReturnsAsync(1);
+            _gameRepositoryMock.Setup(s => s.UploadAsync(It.IsAny<Grid>(), It.IsAny<CancellationToken>())).ReturnsAsync(Guid.NewGuid().ToString());
         }
 
         private void SetupSuccess()
         {
             var validBoardState = new BoardState()
             {
-                Id = 1,
                 Grid = new Grid()
                 {
                     Width = 10,
@@ -50,71 +49,68 @@ namespace Game.Tests.Services
                 }
             };
 
-            _gameRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
+            _gameRepositoryMock.Setup(s => s.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
 
             _gameRepositoryMock.Setup(s => s.GetFinalStateAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
 
             _gameRepositoryMock.Setup(s => s.GetNextStateAsync(It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
 
-            _gameRepositoryMock.Setup(s => s.RemoveByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
+            _gameRepositoryMock.Setup(s => s.RemoveByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState);
 
             _gameRepositoryMock.Setup(s => s.SimulateAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(validBoardState.Grid);
 
-            _gameRepositoryMock.Setup(s => s.UploadAsync(validBoardState.Grid, It.IsAny<CancellationToken>())).ReturnsAsync(1);
+            _gameRepositoryMock.Setup(s => s.UploadAsync(validBoardState.Grid, It.IsAny<CancellationToken>())).ReturnsAsync(Guid.NewGuid().ToString());
         }
 
 
-        [Theory(DisplayName = "GetBoardStateById_with_invalid_id")]
-        [InlineData(-1)]
-        [InlineData(0)]
-        public async Task GetBoardStateById_with_invalid_id(int value)
+        [Fact(DisplayName = "GetBoardStateById_with_invalid_id")]
+        public async Task GetBoardStateById_with_invalid_id()
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = await _gameService.GetByIdAsync(value, CancellationToken.None);
+            var result = await _gameService.GetByIdAsync(Guid.Empty, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
-            result.Errors.Should().Contain($"{Messages.INVALID_BOARD_ID} {value}");
+            result.Errors.Should().Contain($"{Messages.INVALID_BOARD_ID} {Guid.Empty}");
         }
 
-        [Theory(DisplayName = "GetBoardStateById_returning_not_found")]
-        [InlineData(100)]
-        public async Task GetBoardStateById_returning_not_found(int value)
+        [Fact(DisplayName = "GetBoardStateById_returning_not_found")]
+        public async Task GetBoardStateById_returning_not_found()
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
+            var id = Guid.NewGuid();
 
             // Act
-            var result = await _gameService.GetByIdAsync(value, CancellationToken.None);
+            var result = await _gameService.GetByIdAsync(id, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.CurrentHttpStatusCode?.Should().Be(HttpStatusCode.NotFound);
-            result.Errors.Should().Contain($"{Messages.BOARD_STATE_NOT_FOUND_WITH_ID} {value}");
+            result.Errors.Should().Contain($"{Messages.BOARD_STATE_NOT_FOUND_WITH_ID} {id}");
         }
 
-        [Theory(DisplayName = "GetBoardStateById_returning_with_success")]
-        [InlineData(1)]
-        public async Task GetBoardStateById_returning_with_success(int value)
+        [Fact(DisplayName = "GetBoardStateById_returning_with_success")]
+        public async Task GetBoardStateById_returning_with_success()
         {
             // Arrange
             SetupSuccess();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = await _gameService.GetByIdAsync(value, CancellationToken.None);
+            var result = await _gameService.GetByIdAsync(Guid.NewGuid(), CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Errors.Should().BeNull();
+            result.Errors.Should().BeNullOrEmpty();
         }
 
         [Theory(DisplayName = "GetFinalBoardState_with_invalid_iterations")]
@@ -133,6 +129,24 @@ namespace Game.Tests.Services
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.Errors.Should().Contain(Messages.INVALID_ITERATIONS);
+        }
+
+        [Theory(DisplayName = "GetFinalBoardState_with_invalid_max_iterations")]
+        [InlineData(101)]
+        [InlineData(999)]
+        public async Task GetFinalBoardState_with_invalid_max_iterations(int value)
+        {
+            // Arrange
+            SetupFailure();
+            _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
+
+            // Act
+            var result = await _gameService.GetFinalStateAsync(value, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain($"{Messages.MAX_NUMBER_OF_ITERATIONS_WAS_REACHED} 100");
         }
 
         [Theory(DisplayName = "GetFinalBoardState_returning_failure")]
@@ -166,7 +180,7 @@ namespace Game.Tests.Services
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Errors.Should().BeNull();
+            result.Errors.Should().BeNullOrEmpty();
         }
 
         [Fact(DisplayName = "GetFinalState_returning_failure")]
@@ -198,62 +212,57 @@ namespace Game.Tests.Services
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Errors.Should().BeNull();
+            result.Errors.Should().BeNullOrEmpty();
         }
 
-        [Theory(DisplayName = "RemoveBoardStateById_with_invalid_id")]
-        [InlineData(-1)]
-        [InlineData(0)]
-        public async Task RemoveBoardStateById_with_invalid_id(int value)
+        [Fact(DisplayName = "RemoveBoardStateById_with_invalid_id")]
+        public async Task RemoveBoardStateById_with_invalid_id()
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = await _gameService.RemoveByIdAsync(value, CancellationToken.None);
+            var result = await _gameService.RemoveByIdAsync(Guid.Empty, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
-            result.Errors.Should().Contain($"{Messages.INVALID_BOARD_ID} {value}");
+            result.Errors.Should().Contain($"{Messages.INVALID_BOARD_ID} {Guid.Empty}");
         }
 
-        [Theory(DisplayName = "RemoveBoardStateById_returning_not_found")]
-        [InlineData(1)]
-        public async Task RemoveBoardStateById_returning_not_found(int value)
+        [Fact(DisplayName = "RemoveBoardStateById_returning_not_found")]
+        public async Task RemoveBoardStateById_returning_not_found()
         {
             // Arrange
             SetupFailure();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
+            var id = Guid.NewGuid();
 
             // Act
-            var result = await _gameService.RemoveByIdAsync(value, CancellationToken.None);
+            var result = await _gameService.RemoveByIdAsync(id, CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.CurrentHttpStatusCode?.Should().Be(HttpStatusCode.NotFound);
-            result.Errors.Should().Contain($"{Messages.BOARD_STATE_NOT_FOUND_WITH_ID} {value}");
+            result.Errors.Should().Contain($"{Messages.BOARD_STATE_NOT_FOUND_WITH_ID} {id}");
         }
 
-        [Theory(DisplayName = "RemoveBoardStateById_returning_success")]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public async Task RemoveBoardStateById_returning_success(int value)
+        [Fact(DisplayName = "RemoveBoardStateById_returning_success")]
+        public async Task RemoveBoardStateById_returning_success()
         {
             // Arrange
             SetupSuccess();
             _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
 
             // Act
-            var result = await _gameService.RemoveByIdAsync(value, CancellationToken.None);
+            var result = await _gameService.RemoveByIdAsync(Guid.NewGuid(), CancellationToken.None);
 
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Errors.Should().BeNull();
+            result.Errors.Should().BeNullOrEmpty();
         }
 
         [Theory(DisplayName = "SimulatePopulations_with_invalid_iterations")]
@@ -272,6 +281,24 @@ namespace Game.Tests.Services
             result.Should().NotBeNull();
             result.Success.Should().BeFalse();
             result.Errors.Should().Contain(Messages.INVALID_ITERATIONS);
+        }
+
+        [Theory(DisplayName = "SimulatePopulations_with_invalid_max_iterations")]
+        [InlineData(101)]
+        [InlineData(999)]
+        public async Task SimulatePopulations_with_invalid_max_iterations(int value)
+        {
+            // Arrange
+            SetupFailure();
+            _gameService = new GameService(_gameRepositoryMock.Object, _mapper);
+
+            // Act
+            var result = await _gameService.SimulateAsync(value, CancellationToken.None);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Success.Should().BeFalse();
+            result.Errors.Should().Contain($"{Messages.MAX_NUMBER_OF_ITERATIONS_WAS_REACHED} 100");
         }
 
         [Theory(DisplayName = "SimulatePopulations_returning_not_found")]
@@ -306,7 +333,7 @@ namespace Game.Tests.Services
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Errors.Should().BeNull();
+            result.Errors.Should().BeNullOrEmpty();
         }
 
         [Fact(DisplayName = "UploadBoard_with_invalid_grid_null_value")]
@@ -364,7 +391,7 @@ namespace Game.Tests.Services
             // Assert
             result.Should().NotBeNull();
             result.Success.Should().BeTrue();
-            result.Errors.Should().BeNull();
+            result.Errors.Should().BeNullOrEmpty();
         }
     }
 }

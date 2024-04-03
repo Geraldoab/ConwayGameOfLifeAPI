@@ -169,6 +169,15 @@ namespace Game.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The maximum number of iterations was reached.
+        /// </summary>
+        public static string MAX_NUMBER_OF_ITERATIONS_WAS_REACHED {
+            get {
+                return ResourceManager.GetString("MAX_NUMBER_OF_ITERATIONS_WAS_REACHED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The width must be between 10 and 100.
         /// </summary>
         public static string WIDTH_OUT_OF_RANGE {
