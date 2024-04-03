@@ -19,4 +19,5 @@ An implementation of Conway's Game of Life using C# and .NET 7.0
 
 
 ## Swagger
-![image](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/7b2eaf28-4fc2-41cd-9c3a-75968b61fc47)
+![image](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/af40c0a0-b377-45e7-a003-db0634c1c7ea)
+
