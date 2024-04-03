@@ -9,6 +9,8 @@ An implementation of Conway's Game of Life using C# and .NET 7.0
 - Unit Tests
 - Local Response Cache
 - Filters
+- In-Memory Database
+- Generics
 
 ## Demonstration
 ![GameOfLifeDemostration](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/c2032998-47f0-4176-82b7-65c2589d4192)
@@ -19,5 +21,30 @@ An implementation of Conway's Game of Life using C# and .NET 7.0
 
 
 ## Swagger
+
+### Json sample:
+``` 
+{
+  "board": {
+    "grid": {
+      "width": 10,
+      "height": 10,
+      "cells": [
+		[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+		[1, 0, 0, 0, 0, 1, 0, 0, 1, 0],
+		[0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+		[0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+		[0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+		[1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	  ]
+    }
+  }
+}
+```
+
 ![image](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/af40c0a0-b377-45e7-a003-db0634c1c7ea)
 
