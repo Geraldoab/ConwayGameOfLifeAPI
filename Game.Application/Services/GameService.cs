@@ -91,7 +91,7 @@ namespace Game.Application.Services
                 return CustomResult.Fail(Messages.INVALID_BOARD_GRID);
 
             var result = await _gameRepository.UploadAsync(grid, cancellationToken);
-            return CustomResult.Ok(result);
+            return CustomResult.Ok(result, HttpStatusCode.Created);
         }
     }
 }

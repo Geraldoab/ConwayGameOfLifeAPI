@@ -29,7 +29,7 @@ namespace Game.Application.Contracts
                 RuleFor(o => o.Board.Grid.Cells.Length).InclusiveBetween(10, 100).WithMessage(Messages.BOARD_CELLS_OUT_OF_RANGE);
 
                 RuleFor(o => o.Board)
-                .Must(b => b.Grid.Height == b.Grid.Width)
+                .Must(b => b.Grid.Height == b.Grid.Width && b.Grid.Cells.GetLength(0) == b.Grid.Cells.GetLength(1))
                 .WithMessage(Messages.BOARD_MUST_BE_A_SQUARE);
             });
         }

@@ -49,5 +49,33 @@ namespace Game.Infra.Data.Helpers
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// // Check if the array is non-rectangular
+        /// </summary>
+        /// <param name="array">The selected array</param>
+        /// <returns>Returns <code>true</code> if the array is rectangular</returns>
+        public static bool IsRectangular(int[,] array)
+        {
+            try
+            {
+                int rows = array.GetLength(0);
+                int cols = array.GetLength(1);
+
+                if (rows == 0 || cols == 0)
+                    return false;
+
+                for (int row = 1; row < rows; row++)
+                    if (array.GetLength(1) != cols)
+                        return false;
+
+                // Array is valid
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

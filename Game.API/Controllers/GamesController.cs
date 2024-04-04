@@ -1,17 +1,17 @@
 using AutoMapper;
+using Game.API.Controllers;
 using Game.Application.Contracts;
-using Game.Domain.Interfaces.Services;
 using Game.Domain.Entities;
+using Game.Domain.Interfaces.Services;
 using Game.Infra.Data.Core;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace ConwayGameOfLife.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class GamesController : ControllerBase
+    public class GamesController : CustomResultController
     {
         private readonly IGameService _gameService;
         private readonly IMapper _mapper;
@@ -35,16 +35,7 @@ namespace ConwayGameOfLife.Controllers
         public async Task<IActionResult> GetBoardsById([FromRoute(Name = "id")] Guid id, CancellationToken cancellationToken)
         {
             var response = await _gameService.GetByIdAsync(id, cancellationToken);
-
-            if (response.Success)
-                return Ok(response);
-            else
-            {
-                if (response.CurrentHttpStatusCode != null && response.CurrentHttpStatusCode.Value == HttpStatusCode.NotFound)
-                    return NotFound(response);
-                else
-                    return BadRequest(response);
-            }
+            return GenerateResponse(response);
         }
 
         /// <summary>
@@ -65,7 +56,7 @@ namespace ConwayGameOfLife.Controllers
                 var board = _mapper.Map<BoardState>(request.Board);
                 var response = await _gameService.UploadAsync(board.Grid, cancellationToken);
                 
-                return response.Success ? Ok(response) : BadRequest(response);
+                return GenerateResponse(response);
             }
             else
                 return BadRequest(CustomResult.Fail(result.Errors.Select(s=> s.ErrorMessage)));
@@ -83,16 +74,7 @@ namespace ConwayGameOfLife.Controllers
         public async Task<IActionResult> RemoveBoardById([FromRoute(Name = "id")] Guid id, CancellationToken cancellationToken)
         {
             var response = await _gameService.RemoveByIdAsync(id, cancellationToken);
-
-            if (response.Success)
-                return Ok(response);
-            else
-            {
-                if (response.CurrentHttpStatusCode != null && response.CurrentHttpStatusCode.Value == HttpStatusCode.NotFound)
-                    return NotFound(response);
-                else
-                    return BadRequest(response);
-            }
+            return GenerateResponse(response);
         }
 
         /// <summary>
@@ -120,16 +102,7 @@ namespace ConwayGameOfLife.Controllers
         public async Task<IActionResult> Simulate(int iterations, CancellationToken cancellationToken)
         {
             var response = await _gameService.SimulateAsync(iterations, cancellationToken);
-            
-            if(response.Success)
-                return Ok(response);
-            else
-            {
-                if(response.CurrentHttpStatusCode != null && response.CurrentHttpStatusCode.Value == HttpStatusCode.NotFound)
-                    return NotFound(response);
-                else
-                    return BadRequest(response);
-            }
+            return GenerateResponse(response);
         }
 
         /// <summary>
@@ -144,16 +117,7 @@ namespace ConwayGameOfLife.Controllers
         public async Task<IActionResult> GetFinalState(int iterations, CancellationToken cancellationToken)
         {
             var response = await _gameService.GetFinalStateAsync(iterations, cancellationToken);
-
-            if (response.Success)
-                return Ok(response);
-            else
-            {
-                if (response.CurrentHttpStatusCode != null && response.CurrentHttpStatusCode.Value == HttpStatusCode.NotFound)
-                    return NotFound(response);
-                else
-                    return BadRequest(response);
-            }
+            return GenerateResponse(response);
         }
     }
 }
