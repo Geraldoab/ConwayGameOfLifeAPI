@@ -18,7 +18,7 @@ An implementation of Conway's Game of Life using C# and .NET 7.0
 - To flatten all two-dimensional arrays
 
 ## Demonstration
-![GameOfLifeDemostration](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/c2032998-47f0-4176-82b7-65c2589d4192)
+![GameOfLifeDemostration](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/9fabb8d4-71c3-4e9d-8390-cae2f8f23e5c)
 
 ![image](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/fd215ee1-4fa8-47dc-ac7a-0f345b6ff6ec)
 
