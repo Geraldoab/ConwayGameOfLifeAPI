@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BASE_ERROR_MESSAGE" xml:space="preserve">
+    <value>Oops! Something went wrong on our end. We're sorry for the inconvenience. Our team has been notified, and we're working to fix the issue as soon as possible. Please try again later.</value>
+  </data>
   <data name="BOARD_CELLS_IS_REQUIRED" xml:space="preserve">
     <value>The board cells are required</value>
   </data>

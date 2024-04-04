@@ -61,6 +61,15 @@ namespace Game.Domain.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! Something went wrong on our end. We&apos;re sorry for the inconvenience. Our team has been notified, and we&apos;re working to fix the issue as soon as possible. Please try again later..
+        /// </summary>
+        public static string BASE_ERROR_MESSAGE {
+            get {
+                return ResourceManager.GetString("BASE_ERROR_MESSAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The board cells are required.
         /// </summary>
         public static string BOARD_CELLS_IS_REQUIRED {
