@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.17" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="xunit" Version="2.4.2" />
@@ -25,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Game.API\Game.API.csproj" />
     <ProjectReference Include="..\Game.Application\Game.Application.csproj" />
     <ProjectReference Include="..\Game.Domain\Game.Domain.csproj" />
     <ProjectReference Include="..\Game.Infra.Data\Game.Infra.Data.csproj" />

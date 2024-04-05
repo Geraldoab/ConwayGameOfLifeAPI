@@ -2,11 +2,22 @@
 using FluentValidation.Results;
 using Game.Application.Contracts.Core;
 using Game.Domain.Resources;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Game.Application.Contracts
 {
     public class BoardStatePostRequest : BaseRequest
     {
+        public BoardStatePostRequest()
+        {
+        }
+
+        [SetsRequiredMembers]
+        public BoardStatePostRequest(BoardRequest board)
+        {
+            Board = board;
+        }
+
         public required BoardRequest Board { get; set; }
 
         public override ValidationResult Validate()

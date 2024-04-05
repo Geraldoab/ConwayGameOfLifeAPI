@@ -6,6 +6,10 @@ namespace Game.Infra.Data.Core
 {
     public class CustomResult
     {
+        public CustomResult()
+        {
+        }
+
         public IEnumerable<string>? Errors { get; }
         public bool Success { get; }
         public bool Failure => !Success;
