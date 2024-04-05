@@ -110,7 +110,7 @@ namespace ConwayGameOfLife.Controllers
         /// </summary>
         /// <param name="iterations">The number of iterations to simulate</param>
         /// <returns>The final board state of the game</returns>
-        [HttpGet("/boards/final-state/{iterations:int}")]
+        [HttpGet("/boards/states-final/{iterations:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
