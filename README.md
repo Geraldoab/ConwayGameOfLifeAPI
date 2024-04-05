@@ -16,7 +16,7 @@ An implementation of Conway's Game of Life using C# and .NET 7.0
 ## How to improve performance
 
 - Change ```int[,]``` to ```byte[,]```
-- To flatten all two-dimensional arrays
+- To flatten all two-dimensional arrays (Before changing something we need to measure)
 
 ## Demonstration
 ![GameOfLifeDemostration](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/9fabb8d4-71c3-4e9d-8390-cae2f8f23e5c)
