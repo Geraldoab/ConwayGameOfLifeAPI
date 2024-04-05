@@ -7,6 +7,7 @@ An implementation of Conway's Game of Life using C# and .NET 7.0
 - SWAGGER
 - Strategy Pattern
 - Unit Tests
+- Integration Tests (Controller > Service -> Repository -> In-Memory Database)
 - Local Response Cache
 - Filters
 - In-Memory Database
@@ -51,5 +52,6 @@ An implementation of Conway's Game of Life using C# and .NET 7.0
 }
 ```
 
-![image](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/af40c0a0-b377-45e7-a003-db0634c1c7ea)
+![image](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/9945cc72-52d2-41ce-b4ad-ea2fe46c8dd6)
+
 
