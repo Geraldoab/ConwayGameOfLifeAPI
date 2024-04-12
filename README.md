@@ -10,6 +10,7 @@ An implementation of Conway's Game of Life using C# and .NET 7.0
 - Integration Tests (Controller > Service -> Repository -> In-Memory Database)
 - Local Response Cache
 - Filters
+- Exception Middleware
 - In-Memory Database
 - Generics
 
