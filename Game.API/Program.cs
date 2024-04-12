@@ -1,4 +1,4 @@
-using Game.API.Filters;
+using Game.API.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -13,10 +13,7 @@ namespace ConwayGameOfLife
 
             // Add services to the container.
 
-            builder.Services.AddControllers(options =>
-            {
-                options.Filters.Add(typeof(ExceptionFilter));
-            }).AddNewtonsoftJson(options =>
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -43,6 +40,8 @@ namespace ConwayGameOfLife
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseHttpsRedirection();
 
