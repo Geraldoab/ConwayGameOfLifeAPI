@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  gameOfLifeApi:
+    image: geraldoab/game-of-life-api:1.1
+    container_name: gameOfLifeApi
+    ports:
+      - 5900:80
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+        
