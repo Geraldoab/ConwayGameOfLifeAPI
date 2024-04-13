@@ -2,6 +2,7 @@
 ### https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 An implementation of Conway's Game of Life using C# and .NET 7.0
 
+- :white_check_mark: Docker
 - :white_check_mark: DDD
 - :white_check_mark: SOLID
 - :white_check_mark: SWAGGER
@@ -27,6 +28,22 @@ Every Microservice needs to have a good observability tool connected to it. The 
 - AWS CloudWatch
 - Splunk
 - Elastic Search + Kibana
+
+## :whale2: How to use with Docker
+
+[My Docker Hub](https://hub.docker.com/repository/docker/geraldoab/game-of-life-api)
+
+``` git clone https://github.com/Geraldoab/ConwayGameOfLifeAPI.git ```
+
+``` cd ConwayGameOfLifeAPI ```
+
+``` docker-compose up ```
+
+``` http://localhost:5900/swagger/index.html ```
+
+### You also can create your own Docker Image
+
+``` docker build -t your-name/name-of-your-image:1.0 . ```
 
 ## :camera: Demonstration
 ![GameOfLifeDemostration](https://github.com/Geraldoab/ConwayGameOfLifeAPI/assets/3846304/9fabb8d4-71c3-4e9d-8390-cae2f8f23e5c)
