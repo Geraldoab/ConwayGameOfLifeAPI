@@ -40,10 +40,12 @@ namespace ConwayGameOfLife
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
-
-            app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
